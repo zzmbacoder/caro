@@ -88,13 +88,14 @@ class Navigator extends React.Component {
                     <NavbarBrand href="/">
                         <span className="btn-inner--icon">
                             <img
-                            style={this.getNavigatorLogoStyle()}
+                            className="navigatorLogo"
                             alt="..."
-                            src={require("../assets/img/icons/common/primary_white.png")}
+                            src={require("../assets/img/icons/common/cbs_primary_white.png")}
                             />
                         </span>
-                        <span className="btn-inner--text">CBS Academic Rep Online (CARO)</span>                 
+                        {/* <span className="btn-inner--tex">CBS Academic Rep Online (CARO)</span>                  */}
                     </NavbarBrand>
+                    <span className="navbarText">CBS Academic Rep Online (CARO)</span>
                     <Button
                         className="btn-neutral btn-icon"
                         color="default"
@@ -107,6 +108,7 @@ class Navigator extends React.Component {
                         size="sm"
                         isOpen={this.state.formModal}
                         toggle={() => this.toggleModal("formModal")}
+                        backdrop="static"
                         >
                         <div className="modal-body p-0">
                             <Card className="bg-secondary shadow border-0">
