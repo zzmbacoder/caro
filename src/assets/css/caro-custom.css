@@ -23,6 +23,11 @@
     letter-spacing: .05px;
 }
 
+.invalidTokenErrorMsg {
+    vertical-align: middle;
+    top: 0px !important;
+}
+
 .footerLogo {
     width: 45px;
     height: 30px;

@@ -12,7 +12,8 @@ import {
     InputGroup,
     InputGroupAddon,
     InputGroupText,
-    Input
+    Input,
+    Alert
   } from "reactstrap";
 
 class Navigator extends React.Component {
@@ -25,7 +26,8 @@ class Navigator extends React.Component {
     state = {
         defaultModal: false,
         token: '',
-        rememberMe: false
+        rememberMe: false,
+        showInvalidTokenError: false
     };
 
     toggleModal = state => {
@@ -36,7 +38,10 @@ class Navigator extends React.Component {
 
     modalOnClickSetToken(modal, tokenValue) {
         const tokenProvided = tokenValue && tokenValue.length > this.statics.tokenMinLength;
-        if (!tokenProvided) return;
+        if (!tokenProvided) {
+            this.setState({ showInvalidTokenError: true});
+            return;
+        }
 
         this.toggleModal(modal);
         if (tokenProvided) {
@@ -70,6 +75,18 @@ class Navigator extends React.Component {
         const input = event.target;
         const value = input.checked;
         this.setState({ rememberMe: value });
+    }
+
+
+    getInvalidTokenErrorMessage() {
+        return  <Alert color="danger">
+                    <span className="alert-inner--icon">
+                        <i className="ni ni-fat-remove invalidTokenErrorMsg" />
+                    </span>
+                    <span className="alert-inner--text">
+                        Invalid token provided!
+                    </span>
+                </Alert>
     }
 
     componentDidMount() {
@@ -111,8 +128,9 @@ class Navigator extends React.Component {
                             <Card className="bg-secondary shadow border-0">
                                 <CardBody className="px-lg-5 py-lg-5">
                                     <div className="text-center text-muted mb-4">
-                                        <small>Put in your CBS Canvas account token below</small>
+                                        <small>Put in your CBS Canvas account token below:</small>
                                     </div>
+                                    {this.state.showInvalidTokenError ? this.getInvalidTokenErrorMessage() : ''}
                                     <Form role="form">
                                     <FormGroup>
                                         <InputGroup className="input-group-alternative">
