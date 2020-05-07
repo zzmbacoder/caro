@@ -18,8 +18,10 @@ class App extends Component {
     calendarEndpoint: 'https://3e8n0jv4dj.execute-api.us-east-1.amazonaws.com/staging/calendar_events',
     assignment: 'assignment',
     event: 'event',
-    dateNow: "2020-03-01 00:00:00",
-    defaultFetchPageSize: 100
+    defaultFetchPageSize: 100,
+    dateYear2020: '2020',
+    dateMonth03: '02',
+    dateDay01: '01'
   }
 
   constructor(props){  
@@ -38,7 +40,7 @@ class App extends Component {
     const range = [];
     // TODO: replace to use the following now
     // const now = new Date();
-    const now = new Date(this.statics.dateNow);
+    const now = new Date(this.statics.dateYear2020, this.statics.dateMonth03, this.statics.dateDay01);
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const lastSunday = new Date(today.setDate(today.getDate()-today.getDay()));
 

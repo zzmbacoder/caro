@@ -20,7 +20,9 @@ import {
 class Tabs extends React.Component {
     statics = {
         course_: 'course_',
-        dateNow: "2020-03-01 00:00:00"
+        dateYear2020: '2020',
+        dateMonth03: '02',
+        dateDay01: '01'
     };
 
     state = {
@@ -33,7 +35,7 @@ class Tabs extends React.Component {
         const dates = [];
         // TODO: replace to use the following now
         // const now = new Date();
-        const now = new Date(this.statics.dateNow);
+        const now = new Date(this.statics.dateYear2020, this.statics.dateMonth03, this.statics.dateDay01);
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const lastSunday = new Date(today.setDate(today.getDate()-today.getDay()));
 
