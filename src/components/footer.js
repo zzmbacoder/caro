@@ -12,7 +12,9 @@ import {
 class Footer extends React.Component {
     statics = {
         gitRepoLink: 'https://github.com/zzmbacoder/caro',
-        canvasLink: 'https://courseworks2.columbia.edu'
+        canvasLink: 'https://courseworks2.columbia.edu',
+        cbsCaroLong: 'CBS Academic Rep Online (CARO)',
+        cbsCaroShort: "CARO"
     };
 
     render() {
@@ -23,11 +25,11 @@ class Footer extends React.Component {
                 <Col md="6">
                     <div className="footerCopyRightText">
                         © {new Date().getFullYear()}{" "}
-                        CBS Academic Rep Online (CARO)
+                        {this.statics.cbsCaroLong}
                     </div>
                     <div className="footerCopyRightTextMobile">
                         © {new Date().getFullYear()}{" "}
-                        CARO
+                        {this.statics.cbsCaroShort}
                     </div>
                 </Col>
                 <Col md="6">

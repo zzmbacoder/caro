@@ -52,7 +52,9 @@
     .footerCopyRightTextMobile {
       display: block;
     }
+}
 
+@media (max-width: 767.8px) {
     .footerLogoMobile {
         display: none;
     }

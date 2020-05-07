@@ -22,7 +22,16 @@ class Tabs extends React.Component {
         course_: 'course_',
         dateYear2020: '2020',
         dateMonth03: '02',
-        dateDay01: '01'
+        dateDay01: '01',
+        courseSessionsText: 'Course Sessions',
+        assignments: 'Assignments',
+        dateText: 'Date',
+        dueDateText: 'Due Date',
+        linkText: 'Link',
+        viewInCanvasText: 'View in Canvas',
+        showDetails: 'Show Details',
+        nothingToPrepareText: 'Nothing to prepare for this day.',
+        nothingDueText: 'Nothing is due on this day.'
     };
 
     state = {
@@ -124,13 +133,13 @@ class Tabs extends React.Component {
     getCalendarItemNames(key, timeZoneName, isCalendarEvent) {
         return <Row key={(isCalendarEvent ? 'event' : 'assignment') + 'Name' + key}>
                     <Col key="1" sm="6">
-                    <i className={isCalendarEvent ? "ni ni-atom" : "ni ni-ruler-pencil"}></i> <strong>{isCalendarEvent ? 'Course Sessions' : 'Assignments'}</strong>
+                    <i className={isCalendarEvent ? "ni ni-atom" : "ni ni-ruler-pencil"}></i> <strong>{isCalendarEvent ? this.statics.courseSessionsText : this.statics.assignments}</strong>
                     </Col>
                     <Col key="2" sm="4">
-                    <i className={isCalendarEvent ? "ni ni-calendar-grid-58" : "ni ni-calendar-grid-58"}></i> <strong>{isCalendarEvent ? 'Date' : 'Due Date'} ({timeZoneName})</strong>
+                    <i className={isCalendarEvent ? "ni ni-calendar-grid-58" : "ni ni-calendar-grid-58"}></i> <strong>{isCalendarEvent ? this.statics.dateText : this.statics.dueDateText} ({timeZoneName})</strong>
                     </Col>
                     <Col key="3" sm="2">
-                    <i className={isCalendarEvent ? "ni ni-curved-next" : "ni ni-curved-next"}></i> <strong>Link</strong>
+                    <i className={isCalendarEvent ? "ni ni-curved-next" : "ni ni-curved-next"}></i> <strong>{this.statics.linkText}</strong>
                     </Col>
                 </Row>
     }
@@ -145,7 +154,7 @@ class Tabs extends React.Component {
                             {moment(time).local().format('M/D/YYYY HH:mm')}
                         </Col>
                         <Col sm="2">
-                            {html_url ? <a href={html_url} target="_blank">View in Canvas</a> : ''}
+                            {html_url ? <a href={html_url} target="_blank">{this.statics.viewInCanvasText}</a> : ''}
                         </Col>                     
                     </Row>
                     {(isCalendarEvent && itemDescription?
@@ -169,7 +178,7 @@ class Tabs extends React.Component {
     }
 
     getShowMoreTriggerLink() {
-        return <strong><a href="#">Show Details</a></strong>;
+        return <strong><a href="#">{this.statics.showDetails}</a></strong>;
     }
 
     getInfoCardDetails(key, courseName, calendarItemDetails, isCalendarEvent) {
@@ -187,7 +196,7 @@ class Tabs extends React.Component {
         return <div className="description infoCard">
                     <Row>
                         <Col sm="12">
-                            {isCalendarEvent ? "Nothing to prepare for this day." : "Nothing is due on this day."}
+                            {isCalendarEvent ? this.statics.nothingToPrepareText : this.statics.nothingDueText}
                         </Col>
                     </Row>
                 </div>
@@ -210,9 +219,7 @@ class Tabs extends React.Component {
         for (let i = 0; i < this.state.dates.length; i++) {
             const infoCardDetails = [];
             const date = this.state.dates[i];
-            // const dayOfWeek = this.getDayForWeek(i);
             const calendarItemsOnDate = calendarItemsByDueDate[date];
-
             const courseNamesOrdered = Object.keys(calendarItemsOnDate);
             courseNamesOrdered.sort();
             for (let j = 0; j < courseNamesOrdered.length; j++) {
@@ -291,7 +298,7 @@ class Tabs extends React.Component {
                         {dateTabs}
                     </Nav>
                 </div>
-                <span className="lead"><strong>Assignments</strong></span>
+                <span className="lead"><strong>{this.statics.assignments}</strong></span>
                 <Card className="shadow">
                     <CardBody>
                         <TabContent activeTab={"tabs" + this.state.tabs}>
@@ -299,7 +306,7 @@ class Tabs extends React.Component {
                         </TabContent>
                     </CardBody>
                 </Card>
-                <div className="lead"><strong>Course Sessions</strong></div>
+                <div className="lead"><strong>{this.statics.courseSessionsText}</strong></div>
                 <Card className="shadow">
                     <CardBody>
                         <TabContent activeTab={"tabs" + this.state.tabs}>

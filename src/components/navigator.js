@@ -20,7 +20,12 @@ class Navigator extends React.Component {
     statics = {
         navigatorLogoHeight: '45px',
         tokenMinLength: 10,
-        bearer: 'Bearer '
+        bearer: 'Bearer ',
+        invalidTokenProvided: 'Invalid token provided!',
+        cbsCaro: 'CBS Academic Rep Online (CARO)',
+        putInYourCbsCanvas: 'Put in your CBS Canvas account token below:',
+        remeberMeText: 'Remember me',
+        go: 'Go!'
     };
 
     state = {
@@ -84,7 +89,7 @@ class Navigator extends React.Component {
                         <i className="ni ni-fat-remove invalidTokenErrorMsg" />
                     </span>
                     <span className="alert-inner--text">
-                        Invalid token provided!
+                        {this.statics.invalidTokenProvided}
                     </span>
                 </Alert>
     }
@@ -114,9 +119,8 @@ class Navigator extends React.Component {
                             src={require("../assets/img/icons/common/cbs_primary_white.png")}
                             />
                         </span>
-                        {/* <span className="btn-inner--tex">CBS Academic Rep Online (CARO)</span>                  */}
                     </NavbarBrand>
-                    <span className="navbarText">CBS Academic Rep Online (CARO)</span>
+                    <span className="navbarText">{this.statics.cbsCaro}</span>
                     <Modal
                         className="modal-dialog-centered"
                         size="sm"
@@ -128,7 +132,7 @@ class Navigator extends React.Component {
                             <Card className="bg-secondary shadow border-0">
                                 <CardBody className="px-lg-5 py-lg-5">
                                     <div className="text-center text-muted mb-4">
-                                        <small>Put in your CBS Canvas account token below:</small>
+                                        <small>{this.statics.putInYourCbsCanvas}</small>
                                     </div>
                                     {this.state.showInvalidTokenError ? this.getInvalidTokenErrorMessage() : ''}
                                     <Form role="form">
@@ -154,7 +158,7 @@ class Navigator extends React.Component {
                                         className="custom-control-label"
                                         htmlFor="rememberMeCheckbox"
                                         >
-                                        <span className="text-muted">Remember me</span>
+                                        <span className="text-muted">{this.statics.remeberMeText}</span>
                                         </label>
                                     </div>
                                     <div className="text-center">
@@ -164,7 +168,7 @@ class Navigator extends React.Component {
                                         type="button"
                                         onClick={() => this.modalOnClickSetToken("formModal", this.state.token)}
                                         >
-                                        <i className="ni ni-spaceship"></i> Go!
+                                        <i className="ni ni-spaceship"></i> {this.statics.go}
                                         </Button>
                                     </div>
                                     </Form>
