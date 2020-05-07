@@ -8,6 +8,11 @@
     margin-top: .5rem;
   }
 
-  .footerCopyRightText {
+.footerCopyRightText {
       font-size: 0.8rem;
+  }
+
+.footerLogo {
+    width: 45px;
+    height: 30px;
   }
