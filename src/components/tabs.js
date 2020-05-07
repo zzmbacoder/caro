@@ -52,24 +52,24 @@ class Tabs extends React.Component {
         });
     };
 
-    getDayForWeek(index) {
+    getDayForWeek(index, isShort) {
         switch(index) {
             case 0:
-                return 'Sun.';
+                return isShort ? 'U.' : 'Sun.';
             case 1:
-                return 'Mon.';
+                return isShort ? 'M.' : 'Mon.';
             case 2:
-                return 'Tue.';
+                return isShort ? 'T.' : 'Tue.';
             case 3:
-                return 'Wed.';
+                return isShort ? 'W.' : 'Wed.';
             case 4:
-                return 'Thu.';
+                return isShort ? 'R.' : 'Thu.';
             case 5:
-                return 'Fri.';
+                return isShort ? 'F.' : 'Fri.';
             case 6:
-                return 'Sat.';
+                return isShort ? 'S.' : 'Sat.';
             default:
-                return 'Sun.';
+                return isShort ? 'U.' : 'Sun.';
         }
     }
 
@@ -192,7 +192,16 @@ class Tabs extends React.Component {
                     </Row>
                 </div>
     }
-    
+
+    getDateTab(nthDayOfWeek, date) {
+        const dayOfWeekLong = this.getDayForWeek(nthDayOfWeek, false);
+        const dayOfWeekShort = this.getDayForWeek(nthDayOfWeek, true);
+        return  <div>
+                    <span className="dateTabLong">{dayOfWeekLong} {moment(date).local().format("M/D/YYYY")}</span>
+                    <span className="dateTabShort">{dayOfWeekShort} {moment(date).local().format("M/D")}</span>
+                </div>
+    }
+
     setUpDateTabsAndDetails(dateTabs, infoCards, isCalendarEvent) {
         const timeZoneName = this.getTimeZoneName();
         const courseIdToNames = this.getCourseIdToNames();
@@ -201,10 +210,9 @@ class Tabs extends React.Component {
         for (let i = 0; i < this.state.dates.length; i++) {
             const infoCardDetails = [];
             const date = this.state.dates[i];
-            const dayOfWeek = this.getDayForWeek(i);
+            // const dayOfWeek = this.getDayForWeek(i);
             const calendarItemsOnDate = calendarItemsByDueDate[date];
 
-            const dateDisplay = moment(date).local().format("M/D/YYYY");
             const courseNamesOrdered = Object.keys(calendarItemsOnDate);
             courseNamesOrdered.sort();
             for (let j = 0; j < courseNamesOrdered.length; j++) {
@@ -242,7 +250,7 @@ class Tabs extends React.Component {
                         href="#"
                         role="tab"
                     >
-                        {dayOfWeek} {dateDisplay}
+                        {this.getDateTab(i, date)}
                     </NavLink>
                 </NavItem>
             );
