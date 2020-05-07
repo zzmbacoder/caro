@@ -9,8 +9,11 @@
   }
 
 .footerCopyRightText {
-      font-size: 0.8rem;
-  }
+    font-size: 0.8rem;
+}
+.footerCopyRightTextMobile {
+    display: none;
+}
 
 .navbar-brand img {
     height: 55px;
@@ -31,4 +34,18 @@
 .footerLogo {
     width: 45px;
     height: 30px;
-  }
+}
+
+@media (max-width: 576px) {
+    .footerCopyRightText {
+        display: none;
+    }
+
+    .footerCopyRightTextMobile {
+      display: block;
+    }
+
+    .footerLogoMobile {
+        display: none;
+    }
+}

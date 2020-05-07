@@ -25,9 +25,13 @@ class Footer extends React.Component {
                         © {new Date().getFullYear()}{" "}
                         CBS Academic Rep Online (CARO)
                     </div>
+                    <div className="footerCopyRightTextMobile">
+                        © {new Date().getFullYear()}{" "}
+                        CARO
+                    </div>
                 </Col>
                 <Col md="6">
-                <Nav className=" nav-footer justify-content-end">
+                <Nav className=" nav-footer justify-content-end footerLogoMobile">
                     <NavItem>
                     <NavLink
                         href={this.statics.gitRepoLink}
