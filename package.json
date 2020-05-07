@@ -5,14 +5,19 @@
   "dependencies": {
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
+    "js-yaml": ">=3.13.1",
+    "mime": ">=1.4.1",
     "moment": "^2.25.1",
     "moment-timezone": "^0.5.28",
+    "open": "^7.0.3",
     "react": "^16.13.1",
     "react-collapsible": "^2.7.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "0.9.5",
-    "reactstrap": "^8.4.1"
+    "reactstrap": "^8.4.1",
+    "braces": ">=2.3.1",
+    "webpack-dev-server": ">=3.1.11"
   },
   "devDependencies": {},
   "scripts": {
