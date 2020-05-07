@@ -35,8 +35,11 @@ class Navigator extends React.Component {
     };
 
     modalOnClickSetToken(modal, tokenValue) {
+        const tokenProvided = tokenValue && tokenValue.length > this.statics.tokenMinLength;
+        if (!tokenProvided) return;
+
         this.toggleModal(modal);
-        if (tokenValue && tokenValue.length > this.statics.tokenMinLength) {
+        if (tokenProvided) {
             this.props.handleToSetToken(this.statics.bearer + tokenValue);
         }
 
@@ -70,6 +73,7 @@ class Navigator extends React.Component {
     }
 
     componentDidMount() {
+        this.toggleModal("formModal");
         const rememberMe = localStorage.getItem('rememberMe') === 'true';
         const token = rememberMe ? localStorage.getItem('token') : '';
         this.setState({ 
@@ -96,13 +100,6 @@ class Navigator extends React.Component {
                         {/* <span className="btn-inner--tex">CBS Academic Rep Online (CARO)</span>                  */}
                     </NavbarBrand>
                     <span className="navbarText">CBS Academic Rep Online (CARO)</span>
-                    <Button
-                        className="btn-neutral btn-icon"
-                        color="default"
-                        onClick={() => this.toggleModal("formModal")}
-                    >
-                        <span className="btn-inner--text"><i className="ni ni-send"></i> Start</span>
-                    </Button>
                     <Modal
                         className="modal-dialog-centered"
                         size="sm"
