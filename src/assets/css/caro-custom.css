@@ -1,0 +1,13 @@
+.tabsContainer {
+    padding-bottom: 40px;
+}
+
+.infoCard {
+    font-weight: 300;
+    line-height: 1.7;
+    margin-top: .5rem;
+  }
+
+  .footerCopyRightText {
+      font-size: 0.8rem;
+  }

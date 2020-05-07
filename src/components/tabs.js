@@ -270,7 +270,7 @@ class Tabs extends React.Component {
         this.setUpDateTabsAndDetails(eventDateTabs, eventInfoCards, true);
         
         return (
-            <div>
+            <div className="tabsContainer">
                 <div className="nav-wrapper">
                     <Nav
                         className="nav-fill flex-column flex-md-row"

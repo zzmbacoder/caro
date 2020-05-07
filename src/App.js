@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Navigator from './components/navigator';
 import Tabs from './components/tabs';
+import Footer from './components/footer';
+
 import moment from "moment";
 // eslint-disable-next-line
 import timezone from "moment-timezone";
@@ -8,6 +10,7 @@ import timezone from "moment-timezone";
 import "./assets/vendor/nucleo/css/nucleo.css";
 import "./assets/vendor/font-awesome/css/font-awesome.min.css";
 import "./assets/css/argon-design-system-react.css";
+import "./assets/css/caro-custom.css";
 
 class App extends Component {
   statics = {
@@ -128,6 +131,7 @@ class App extends Component {
       <div className="container">
         <Navigator handleToSetToken={handleToSetToken.bind(this)} />
         <Tabs courses={this.state.courses} assignments={this.state.assignments} events={this.state.events} />
+        <Footer />
       </div>
     );
   }
