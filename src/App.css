@@ -1,24 +1,71 @@
-.App {
-  text-align: center;
+.tabsContainer {
+  padding-bottom: 40px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.infoCard {
+  font-weight: 300;
+  line-height: 1.7;
+  margin-top: .5rem;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.footerCopyRightText {
+  font-size: 0.8rem;
+}
+.footerCopyRightTextMobile {
+  display: none;
 }
 
-.App-intro {
-  font-size: large;
+.navbar-brand img {
+  height: 55px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.navbar-dark .navbarText {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: .05px;
+}
+
+.invalidTokenErrorMsg {
+  vertical-align: middle;
+  top: 0px !important;
+}
+
+.footerLogo {
+  width: 45px;
+  height: 30px;
+}
+
+.dateTabShort {
+  display: none;
+}
+
+.dateTabLong {
+  display: contents;
+}
+
+@media (max-width: 576px) {
+  .footerCopyRightText {
+      display: none;
+  }
+
+  .footerCopyRightTextMobile {
+    display: block;
+  }
+}
+
+@media (max-width: 767.8px) {
+  .footerLogoMobile {
+      display: none;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .dateTabShort {
+      display: contents;
+  }
+
+  .dateTabLong {
+      display: none;
+  }
 }

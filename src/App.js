@@ -10,7 +10,7 @@ import timezone from "moment-timezone";
 import "./assets/vendor/nucleo/css/nucleo.css";
 import "./assets/vendor/font-awesome/css/font-awesome.min.css";
 import "./assets/css/argon-design-system-react.css";
-import "./assets/css/caro-custom.css";
+import "./App.css";
 
 class App extends Component {
   statics = {
