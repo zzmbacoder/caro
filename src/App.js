@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navigator from './components/navigator';
 import Tabs from './components/tabs';
 import Footer from './components/footer';
-
+import fetch from 'isomorphic-fetch';
 import moment from "moment";
 // eslint-disable-next-line
 import timezone from "moment-timezone";
@@ -11,6 +11,8 @@ import "./assets/vendor/nucleo/css/nucleo.css";
 import "./assets/vendor/font-awesome/css/font-awesome.min.css";
 import "./assets/css/argon-design-system-react.css";
 import "./App.css";
+
+require('es6-promise').polyfill();
 
 class App extends Component {
   statics = {
