@@ -154,6 +154,7 @@ class Tabs extends React.Component {
                             {moment(time).local().format('M/D/YYYY HH:mm')}
                         </Col>
                         <Col sm="2">
+                            {/* eslint-disable-next-line */}
                             {html_url ? <a href={html_url} target="_blank">{this.statics.viewInCanvasText}</a> : ''}
                         </Col>                     
                     </Row>
@@ -178,6 +179,7 @@ class Tabs extends React.Component {
     }
 
     getShowMoreTriggerLink() {
+        // eslint-disable-next-line
         return <strong><a href="#">{this.statics.showDetails}</a></strong>;
     }
 

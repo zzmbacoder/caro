@@ -143,7 +143,7 @@ class Navigator extends React.Component {
                                             <i className="ni ni-lock-circle-open" />
                                             </InputGroupText>
                                         </InputGroupAddon>
-                                        <Input value={this.state.token} onChange={() => this.handleTokenInput(event)} placeholder="Token" type="password" />
+                                        <Input value={this.state.token} onChange={() => this.handleTokenInput(window.event)} placeholder="Token" type="password" />
                                         </InputGroup>
                                     </FormGroup>
                                     <div className="custom-control custom-control-alternative custom-checkbox">
@@ -151,7 +151,7 @@ class Navigator extends React.Component {
                                         className="custom-control-input"
                                         id="rememberMeCheckbox"
                                         type="checkbox"
-                                        onChange={() => this.handleRememberMeOnChange(event)}
+                                        onChange={() => this.handleRememberMeOnChange(window.event)}
                                         checked={this.state.rememberMe} 
                                         />
                                         <label
