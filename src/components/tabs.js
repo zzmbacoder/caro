@@ -137,7 +137,7 @@ class Tabs extends React.Component {
                     <i className={isCalendarEvent ? "ni ni-atom" : "ni ni-ruler-pencil"}></i> <strong>{isCalendarEvent ? this.statics.courseSessionsText : this.statics.assignments}</strong>
                     </Col>
                     <Col key="2" sm="4">
-                    <i className={isCalendarEvent ? "ni ni-calendar-grid-58" : "ni ni-calendar-grid-58"}></i> <strong>{isCalendarEvent ? this.statics.dateText : this.statics.dueDateText} ({timeZoneName})</strong>
+                    <i className={isCalendarEvent ? "ni ni-calendar-grid-58" : "ni ni-calendar-grid-58"}></i> <strong>{isCalendarEvent ? this.statics.dateText : this.statics.dueDateText} {timeZoneName ? ('(' + timeZoneName + ')') : ''}</strong>
                     </Col>
                     <Col key="3" sm="2">
                     <i className={isCalendarEvent ? "ni ni-curved-next" : "ni ni-curved-next"}></i> <strong>{this.statics.linkText}</strong>
