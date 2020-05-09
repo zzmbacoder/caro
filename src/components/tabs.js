@@ -31,7 +31,8 @@ class Tabs extends React.Component {
         viewInCanvasText: 'View in Canvas',
         showDetails: 'Show Details',
         nothingToPrepareText: 'Nothing to prepare for this day.',
-        nothingDueText: 'Nothing is due on this day.'
+        nothingDueText: 'Nothing is due on this day.',
+        zoomLink: 'https://zoom.us/'
     };
 
     state = {
@@ -144,18 +145,29 @@ class Tabs extends React.Component {
                 </Row>
     }
 
-    getCalendarItemDetails(key, title, time, html_url, itemDescription, isCalendarEvent) {
+    getZoomLinkFromLocationIfAvailable(calendarItem, time) {
+        const location = calendarItem.location_name;
+        const formatedTime = time ? moment(time).local().format('M/D/YYYY HH:mm') : '';
+        if (location && location.startsWith(this.statics.zoomLink)) {
+            // eslint-disable-next-line
+            return <a href={location} target="_blank">{formatedTime}</a>
+        } else {
+            return formatedTime;
+        }
+    }
+
+    getCalendarItemDetails(key, calendarItem, time, itemDescription, isCalendarEvent) {
         return <div key={key}>
                 <Row key={(isCalendarEvent ? 'event' : 'assignment') + 'Details' + key}>
                         <Col sm="6"> 
-                            {title}
+                            {calendarItem.title ? calendarItem.title : ''}
                         </Col>
                         <Col sm="4">
-                            {moment(time).local().format('M/D/YYYY HH:mm')}
+                            {this.getZoomLinkFromLocationIfAvailable(calendarItem, time)}
                         </Col>
                         <Col sm="2">
                             {/* eslint-disable-next-line */}
-                            {html_url ? <a href={html_url} target="_blank">{this.statics.viewInCanvasText}</a> : ''}
+                            {calendarItem.html_url ? <a href={calendarItem.html_url} target="_blank">{this.statics.viewInCanvasText}</a> : ''}
                         </Col>                     
                     </Row>
                     {(isCalendarEvent && itemDescription?
@@ -239,7 +251,7 @@ class Tabs extends React.Component {
                     }
 
                     calendarItemDetails.push(
-                        this.getCalendarItemDetails(k, calendarItem.title, time, calendarItem.html_url, itemDescription, isCalendarEvent)
+                        this.getCalendarItemDetails(k, calendarItem, time, itemDescription, isCalendarEvent)
                     );
                 }
                 infoCardDetails.push(
