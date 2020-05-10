@@ -139,8 +139,6 @@ class App extends Component {
     if (!rememberMe) {
         this.setState({ token: '' });
     }
-
-    this.toggleModal('formModal');
   }
 
   setUpWeekAssignments() {
@@ -169,7 +167,6 @@ class App extends Component {
     .then((res) => {
       if (res.status === this.statics.http_401) {
         this.setState({ tokenError: this.statics.invalidTokenProvided });
-        this.toggleModal('formModal');
         throw new Error("unauthorized request");
       }
 
@@ -185,6 +182,9 @@ class App extends Component {
         this.retrieveCalendarItemsForCourse(token, data[i].id, this.statics.assignment, timeRange[0], timeRange[1], this.statics.defaultFetchPageSize);
         this.retrieveCalendarItemsForCourse(token, data[i].id, this.statics.event, timeRange[0], timeRange[1], this.statics.defaultFetchPageSize);
       }
+    })
+    .then(() => {
+      this.toggleModal('formModal');
     })
     .catch(console.log);
   }
