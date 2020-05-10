@@ -44,6 +44,10 @@
   display: contents;
 }
 
+.modal-content .alert .alert-inner--icon {
+  margin-right: .5rem;
+}
+
 @media (max-width: 576px) {
   .footerCopyRightText {
       display: none;

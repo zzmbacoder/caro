@@ -40,10 +40,12 @@ class App extends Component {
     dateDay01: '01',
     tokenMinLength: 10,
     bearer: 'Bearer ',
-    invalidTokenProvided: 'Invalid token provided!',
+    invalidTokenProvided: "Your token doesn't seem right.",
+    malformedTokenProvided: 'Invalid token provided!',
     putInYourCbsCanvas: 'Put in your CBS Canvas account token below:',
     remeberMeText: 'Remember me',
-    go: 'Go!'
+    go: 'Go!',
+    http_401: 401
   }
 
   constructor(props){  
@@ -55,7 +57,7 @@ class App extends Component {
     token: '',
     defaultModal: false,
     rememberMe: false,
-    showInvalidTokenError: false,
+    tokenError: '',
     courses: [],
     assignments: [],
     events: []
@@ -67,27 +69,16 @@ class App extends Component {
       });
   };
 
-  modalOnClickSetToken(modal, tokenValue) {
+  modalOnClickSetToken(tokenValue) {
       const tokenProvided = tokenValue && tokenValue.length > this.statics.tokenMinLength;
       if (!tokenProvided) {
-          this.setState({ showInvalidTokenError: true});
+          this.setState({ tokenError: this.statics.malformedTokenProvided });
           return;
       }
 
       if (tokenProvided) {
-          this.handleToSetToken(this.statics.bearer + tokenValue);
+          this.handleToSetToken(tokenValue);
       }
-
-      // Store the token into browser localStorage if remember me is checked
-      const { token, rememberMe } = this.state;
-      localStorage.setItem('rememberMe', rememberMe);
-      localStorage.setItem('token', rememberMe ? token : '');
-
-      if (!rememberMe) {
-          this.setState({ token: '' });
-      }
-
-      this.toggleModal(modal);
   }
 
   handleTokenInput(event) {
@@ -105,12 +96,12 @@ class App extends Component {
 
   getInvalidTokenErrorMessage() {
       return  <Alert color="danger">
-                  <span className="alert-inner--icon">
+                  <div className="alert-inner--icon">
                       <i className="ni ni-fat-remove invalidTokenErrorMsg" />
-                  </span>
-                  <span className="alert-inner--text">
-                      {this.statics.invalidTokenProvided}
-                  </span>
+                  </div>
+                  <div className="alert-inner--text">
+                      {this.state.tokenError}
+                  </div>
               </Alert>
   }
 
@@ -129,16 +120,27 @@ class App extends Component {
   }
 
   handleToSetToken(token){
-    this.setState({ token: token }, this.setTokenCallBack);
+    this.setState({ token: token }, this.setTokenCallBack(token));
   }
 
-  setTokenCallBack()  {
+  setTokenCallBack(token)  {
     this.setState({
       courses: [],
       assignments: [],
       events: []
     })
-    this.retrieveCourseInfoFromCanvas(this.state.token, true);
+    this.retrieveCourseInfoFromCanvas(token, true);
+
+    // Store the token into browser localStorage if remember me is checked
+    const rememberMe = this.state.rememberMe;
+    localStorage.setItem('rememberMe', rememberMe);
+    localStorage.setItem('token', rememberMe ? token : '');
+
+    if (!rememberMe) {
+        this.setState({ token: '' });
+    }
+
+    this.toggleModal('formModal');
   }
 
   setUpWeekAssignments() {
@@ -161,10 +163,18 @@ class App extends Component {
       method: 'GET',
       withCredentials: true,
       headers: {
-        'Authorization': token
+        'Authorization': this.statics.bearer + token
       }
     })
-    .then(res => res.json())
+    .then((res) => {
+      if (res.status === this.statics.http_401) {
+        this.setState({ tokenError: this.statics.invalidTokenProvided });
+        this.toggleModal('formModal');
+        throw new Error("unauthorized request");
+      }
+
+      return res.json()
+    })
     .then((data) => {
       this.setState({ courses: data });
       return data;
@@ -176,7 +186,7 @@ class App extends Component {
         this.retrieveCalendarItemsForCourse(token, data[i].id, this.statics.event, timeRange[0], timeRange[1], this.statics.defaultFetchPageSize);
       }
     })
-    .catch(console.log) 
+    .catch(console.log);
   }
 
   retrieveCalendarItemsForCourse(token, courseId, type, startDate, endDate, maxPerPage) {
@@ -185,7 +195,7 @@ class App extends Component {
       method: 'GET',
       withCredentials: true,
       headers: {
-        'Authorization': token
+        'Authorization': this.statics.bearer + token
       }
     })
     .then(res => res.json())
@@ -226,7 +236,7 @@ class App extends Component {
                           <div className="text-center text-muted mb-4">
                               <small>{this.statics.putInYourCbsCanvas}</small>
                           </div>
-                          {this.state.showInvalidTokenError ? this.getInvalidTokenErrorMessage() : ''}
+                          {this.state.tokenError ? this.getInvalidTokenErrorMessage() : ''}
                           <Form role="form">
                           <FormGroup>
                               <InputGroup className="input-group-alternative">
@@ -258,7 +268,7 @@ class App extends Component {
                               className="my-4"
                               color="primary"
                               type="button"
-                              onClick={() => this.modalOnClickSetToken("formModal", this.state.token)}
+                              onClick={() => this.modalOnClickSetToken(this.state.token)}
                               >
                               <i className="ni ni-spaceship"></i> {this.statics.go}
                               </Button>
