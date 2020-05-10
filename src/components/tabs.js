@@ -100,37 +100,6 @@ class Tabs extends React.Component {
         return courseIdToNames;
     }
 
-    // Assignment menthods
-    getCalendarItemsByDueDate(isCalendarEvent) {
-        const calendarItemsByDueDate = {};
-        const items = isCalendarEvent ? this.props.events : this.props.assignments;
-        for (let i = 0; i < this.state.dates.length; i++) {
-            const date = this.state.dates[i];
-            if (!calendarItemsByDueDate.hasOwnProperty(date)) {
-                calendarItemsByDueDate[date] = {};
-            }
-
-            for (let j = 0; j < items.length; j++) {
-                const item = items[j];
-                if (!isCalendarEvent || (item.hasOwnProperty("hidden") && !item.hidden)) {
-                    const dueDate = item.end_at;
-                    if (moment(dueDate).isAfter(date) && moment(dueDate).isBefore(this.state.tomorrows[i])) {
-                        // For calendar event, all_context_codes is the courseId. For assignments, context_code is the courseId.
-                        const courseIdAttributeName = !isCalendarEvent ? item.context_code : item.all_context_codes.split(',')[0];
-                        if (!calendarItemsByDueDate[date].hasOwnProperty(courseIdAttributeName)) {
-                            calendarItemsByDueDate[date][courseIdAttributeName] = [];
-                        }
-    
-                        if (calendarItemsByDueDate.hasOwnProperty(date) && calendarItemsByDueDate[date].hasOwnProperty(courseIdAttributeName)) {
-                            calendarItemsByDueDate[date][courseIdAttributeName].push(item);
-                        }
-                    }
-                }
-            }
-        }
-        return calendarItemsByDueDate;
-    }
-
     getCalendarItemNames(key, timeZoneName, isCalendarEvent) {
         return <Row key={(isCalendarEvent ? 'event' : 'assignment') + 'Name' + key}>
                     <Col key="1" sm="6">
@@ -225,17 +194,73 @@ class Tabs extends React.Component {
                 </div>
     }
 
+    getSortedCourseNamesOnDay(courseIdByEarliestOccurenceEvent) {
+        const courseNamesOrderedForDay = [];
+        const courseNameList = courseIdByEarliestOccurenceEvent;
+        for (let k = 0; courseNameList && k < courseNameList.length; k++) {
+            courseNamesOrderedForDay.push(courseNameList[k].courseId);
+        }
+        return courseNamesOrderedForDay;
+    }
+
+    // Assignment menthods
+    getCalendarItemsByDueDate(isCalendarEvent, courseIdByEarliestOccurenceEvent) {
+        const calendarItemsByDueDate = {};
+        const items = isCalendarEvent ? this.props.events : this.props.assignments;
+        for (let i = 0; i < this.state.dates.length; i++) {
+            const date = this.state.dates[i];
+            if (!calendarItemsByDueDate.hasOwnProperty(date)) {
+                calendarItemsByDueDate[date] = {};
+            }
+
+            for (let j = 0; j < items.length; j++) {
+                const item = items[j];
+                if (!isCalendarEvent || (item.hasOwnProperty("hidden") && !item.hidden)) {
+                    const dueDate = item.end_at;
+                    if (moment(dueDate).isAfter(date) && moment(dueDate).isBefore(this.state.tomorrows[i])) {
+                        // For calendar event, all_context_codes is the courseId. For assignments, context_code is the courseId.
+                        const courseIdAttributeName = !isCalendarEvent ? item.context_code : item.all_context_codes.split(',')[0];
+                        if (!calendarItemsByDueDate[date].hasOwnProperty(courseIdAttributeName)) {
+                            calendarItemsByDueDate[date][courseIdAttributeName] = [];
+                        }
+    
+                        if (calendarItemsByDueDate.hasOwnProperty(date) && calendarItemsByDueDate[date].hasOwnProperty(courseIdAttributeName)) {
+                            calendarItemsByDueDate[date][courseIdAttributeName].push(item);
+                        }
+                    }
+                }
+            }
+
+            // Figure out the sorted order of course IDs (by event time earliest to latest)
+            let arr = [];
+            const courseIds = Object.keys(calendarItemsByDueDate[date]);
+            for (let k = 0; k < courseIds.length; k++) {
+                const courseId = courseIds[k];
+                const courseItemsByOccurenceTime = calendarItemsByDueDate[date][courseId];
+                const occurenceTime = isCalendarEvent ? courseItemsByOccurenceTime[0].start_at : courseItemsByOccurenceTime[0].end_at;
+                arr.push({
+                    'courseId': courseIds[k],
+                    'occurenceTime' : new Date(occurenceTime)
+                })
+            }
+            arr = arr.sort((a, b) => (a.occurenceTime - b.occurenceTime));
+            courseIdByEarliestOccurenceEvent.splice(i, 0, arr);
+        }
+        return calendarItemsByDueDate;
+    }
+
     setUpDateTabsAndDetails(dateTabs, infoCards, isCalendarEvent) {
         const timeZoneName = this.getTimeZoneName();
         const courseIdToNames = this.getCourseIdToNames();
-        const calendarItemsByDueDate = this.getCalendarItemsByDueDate(isCalendarEvent);
+
+        const courseIdByEarliestOccurenceEvent = [[]];
+        const calendarItemsByDueDate = this.getCalendarItemsByDueDate(isCalendarEvent, courseIdByEarliestOccurenceEvent);
 
         for (let i = 0; i < this.state.dates.length; i++) {
             const infoCardDetails = [];
             const date = this.state.dates[i];
             const calendarItemsOnDate = calendarItemsByDueDate[date];
-            const courseNamesOrdered = Object.keys(calendarItemsOnDate);
-            courseNamesOrdered.sort();
+            const courseNamesOrdered = this.getSortedCourseNamesOnDay(courseIdByEarliestOccurenceEvent[i]);
             for (let j = 0; j < courseNamesOrdered.length; j++) {
                 const calendarItems = calendarItemsOnDate[courseNamesOrdered[j]];
                 const calendarItemDetails = [];
