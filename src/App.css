@@ -44,6 +44,10 @@
   display: contents;
 }
 
+.container .caroNavbar {
+  margin-top: 0 !important;
+}
+
 .modal-content .alert .alert-inner--icon {
   margin-right: .5rem;
 }

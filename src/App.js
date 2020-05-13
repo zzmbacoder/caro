@@ -107,9 +107,7 @@ class App extends Component {
 
   getRetrievalDateRange(startingIndex, endingIndex) {
     const range = [];
-    // TODO: replace to use the following now
-    // const now = new Date();
-    const now = new Date(this.statics.dateYear2020, this.statics.dateMonth03, this.statics.dateDay01);
+    const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const lastSunday = new Date(today.setDate(today.getDate()-today.getDay()));
 

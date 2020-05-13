@@ -13,7 +13,7 @@ class Navigator extends React.Component {
     render() {
         return (
             <Navbar
-            className="navbar-horizontal navbar-dark bg-primary mt-4"
+            className="navbar-horizontal navbar-dark bg-primary mt-4 caroNavbar"
             expand="lg"
             >
                 <Container>
