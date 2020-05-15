@@ -56,6 +56,14 @@
   margin-right: .5rem;
 }
 
+.dateTabNavBack {
+  margin-top: 9px;
+}
+
+.dateTabNavForward {
+  margin-top: 9px;
+}
+
 @media (max-width: 576px) {
   .footerCopyRightText {
       display: none;

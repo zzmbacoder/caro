@@ -14,7 +14,8 @@ import {
   TabContent,
   TabPane,
   Row,
-  Col
+  Col,
+  Button
 } from "reactstrap";
 
 class Tabs extends React.Component {
@@ -188,9 +189,18 @@ class Tabs extends React.Component {
         const dayOfWeekLong = this.getDayForWeek(nthDayOfWeek, false);
         const dayOfWeekShort = this.getDayForWeek(nthDayOfWeek, true);
         return  <div>
-                    <span className="dateTabLong">{dayOfWeekLong} {moment(date).local().format("M/D/YYYY")}</span>
-                    <span className="dateTabMedium">{dayOfWeekLong} {moment(date).local().format("M/D")}</span>
-                    <span className="dateTabShort">{dayOfWeekShort} {moment(date).local().format("M/D")}</span>
+                    <span className="dateTabLong">
+                        <div>{dayOfWeekLong}</div>
+                        <div>{moment(date).local().format("M/D/YYYY")}</div>
+                    </span>
+                    <span className="dateTabMedium">
+                        <div>{dayOfWeekLong}</div>
+                        <div>{moment(date).local().format("M/D")}</div>
+                    </span>
+                    <span className="dateTabShort">
+                        <div>{dayOfWeekShort}</div>
+                        <div>{moment(date).local().format("M/D")}</div>
+                    </span>
                 </div>
     }
 
@@ -334,7 +344,27 @@ class Tabs extends React.Component {
                         pills
                         role="tablist"
                     >
+                        <NavItem >
+                            <NavLink
+                                className="dateTabNavBack"
+                                onClick={e => this.toggleNavs(e, "tabs", 0)}
+                                href="#"
+                                role="tab"
+                            >
+                                <i className="ni ni-bold-left"></i>
+                            </NavLink>
+                        </NavItem>
                         {dateTabs}
+                        <NavItem >
+                            <NavLink
+                                className="dateTabNavForward"
+                                onClick={e => this.toggleNavs(e, "tabs", 0)}
+                                href="#"
+                                role="tab"
+                            >
+                                <i className="ni ni-bold-right"></i>
+                            </NavLink>
+                        </NavItem>
                     </Nav>
                 </div>
                 <span className="lead"><strong>{this.statics.assignments}</strong></span>
