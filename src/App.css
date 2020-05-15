@@ -40,8 +40,12 @@
   display: none;
 }
 
+.dateTabMedium {
+  display: none;
+}
+
 .dateTabLong {
-  display: contents;
+  display: block;
 }
 
 .container .caroNavbar {
@@ -70,6 +74,24 @@
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .dateTabShort {
+      display: block;
+  }
+
+  .dateTabMedium {
+    display: none;
+  }
+
+  .dateTabLong {
+      display: none;
+  }
+}
+
+@media screen and (min-width: 993px) and (max-width: 1199px) {
+  .dateTabShort {
+    display: none;
+  }
+
+  .dateTabMedium {
       display: block;
   }
 

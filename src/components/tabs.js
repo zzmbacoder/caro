@@ -188,6 +188,7 @@ class Tabs extends React.Component {
         const dayOfWeekShort = this.getDayForWeek(nthDayOfWeek, true);
         return  <div>
                     <span className="dateTabLong">{dayOfWeekLong} {moment(date).local().format("M/D/YYYY")}</span>
+                    <span className="dateTabMedium">{dayOfWeekLong} {moment(date).local().format("M/D")}</span>
                     <span className="dateTabShort">{dayOfWeekShort} {moment(date).local().format("M/D")}</span>
                 </div>
     }
