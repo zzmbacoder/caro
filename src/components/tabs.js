@@ -115,7 +115,8 @@ class Tabs extends React.Component {
     getZoomLinkFromLocationIfAvailable(calendarItem, time) {
         const location = calendarItem.location_name;
         const formatedTime = time ? moment(time).local().format('M/D/YYYY HH:mm') : '';
-        if (location && location.startsWith(this.statics.zoomLink)) {
+
+        if (location && location.indexOf(this.statics.zoomLink) === 0) {
             // eslint-disable-next-line
             return <a href={location} target="_blank">{formatedTime}</a>
         } else {
