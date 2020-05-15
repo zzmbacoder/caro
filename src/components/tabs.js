@@ -14,8 +14,7 @@ import {
   TabContent,
   TabPane,
   Row,
-  Col,
-  Button
+  Col
 } from "reactstrap";
 
 class Tabs extends React.Component {
@@ -38,18 +37,18 @@ class Tabs extends React.Component {
 
     state = {
         tabs: 0,
-        dates: this.getAvailableDates(0, 7),
-        tomorrows: this.getAvailableDates(1, 8)
+        dates: this.getAvailableDates(new Date(), 0, 7),
+        tomorrows: this.getAvailableDates(new Date(), 1, 8)
     };
 
-    getAvailableDates(startingIndex, endingIndex) {
+    getAvailableDates(now, startingIndex, endingIndex) {
         const dates = [];
-        const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const lastSunday = new Date(today.setDate(today.getDate()-today.getDay()));
 
         for (let i = startingIndex; i < endingIndex; i++) {
-            dates.push(new Date(today.setDate(lastSunday.getDate() + i)));
+            const timeToShift = i * 24 * 60 * 60 * 1000;
+            dates.push(new Date(lastSunday.getTime() + timeToShift));
         }
         return dates;
     }
@@ -326,6 +325,19 @@ class Tabs extends React.Component {
         }
     }
 
+    toggleWeekDayRange(e, isBack) {
+        const currentStartDate = this.state.dates[0];
+        const timeToShift = 7 * 24 * 60 * 60 * 1000;
+        const newStartDate = new Date(currentStartDate.getTime() + (isBack ? -timeToShift : timeToShift));
+
+        this.props.weekToggleHandler(newStartDate);
+        this.setState({
+            tabs: 0,
+            dates: this.getAvailableDates(newStartDate, 0, 7),
+            tomorrows: this.getAvailableDates(newStartDate, 1, 8)
+        })
+    }
+
     render() {
         const dateTabs = [];
         const infoCards = [];
@@ -347,7 +359,7 @@ class Tabs extends React.Component {
                         <NavItem >
                             <NavLink
                                 className="dateTabNavBack"
-                                onClick={e => this.toggleNavs(e, "tabs", 0)}
+                                onClick={e => this.toggleWeekDayRange(e, true)}
                                 href="#"
                                 role="tab"
                             >
@@ -358,7 +370,7 @@ class Tabs extends React.Component {
                         <NavItem >
                             <NavLink
                                 className="dateTabNavForward"
-                                onClick={e => this.toggleNavs(e, "tabs", 0)}
+                                onClick={e => this.toggleWeekDayRange(e, false)}
                                 href="#"
                                 role="tab"
                             >

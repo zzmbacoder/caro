@@ -51,6 +51,8 @@ class App extends Component {
   constructor(props){  
     super(props);
     this.handleToSetToken.bind(this);
+    this.weekToggleHandler = this.weekToggleHandler.bind(this);
+
   }
 
   state = {
@@ -58,6 +60,7 @@ class App extends Component {
     defaultModal: false,
     rememberMe: false,
     tokenError: '',
+    weekDayRange: this.getCurrentWeekDayRange(new Date()),
     courses: [],
     assignments: [],
     events: []
@@ -68,6 +71,15 @@ class App extends Component {
           [state]: !this.state[state]
       });
   };
+
+  weekToggleHandler(startDate) {
+    this.setState({ 
+      weekDayRange: this.getCurrentWeekDayRange(startDate),
+      courses: [],
+      assignments: [],
+      events: []
+    }, this.retrieveCourseInfoFromCanvas(this.state.token, true, true));
+  }
 
   modalOnClickSetToken(tokenValue) {
       const tokenProvided = tokenValue && tokenValue.length > this.statics.tokenMinLength;
@@ -105,9 +117,8 @@ class App extends Component {
               </Alert>
   }
 
-  getRetrievalDateRange(startingIndex, endingIndex) {
+  getCurrentWeekDayRange(now) {
     const range = [];
-    const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const lastSunday = new Date(today.setDate(today.getDate()-today.getDay()));
 
@@ -127,7 +138,7 @@ class App extends Component {
       assignments: [],
       events: []
     })
-    this.retrieveCourseInfoFromCanvas(token, true);
+    this.retrieveCourseInfoFromCanvas(token, true, false);
 
     // Store the token into browser localStorage if remember me is checked
     const rememberMe = this.state.rememberMe;
@@ -139,21 +150,7 @@ class App extends Component {
     }
   }
 
-  setUpWeekAssignments() {
-    const assignments = [];
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const lastSunday = new Date(today.setDate(today.getDate()-today.getDay()));
-
-    for (let i = 0; i < 7; i++) {
-      assignments.push({
-        date: new Date(today.setDate(lastSunday.getDate() + i))
-      });
-    }
-    return assignments;
-  }
-
-  retrieveCourseInfoFromCanvas(token, activeEnrollment) {
+  retrieveCourseInfoFromCanvas(token, activeEnrollment, skipToggleModal) {
     const url = this.statics.coursesEndpoint + (activeEnrollment ? '?enrollment_state=active' : '');
     fetch(url, {
       method: 'GET',
@@ -175,14 +172,14 @@ class App extends Component {
       return data;
     })
     .then((data) => {
-      const timeRange = this.getRetrievalDateRange();
+      const timeRange = this.state.weekDayRange;
       for (let i = 0; i < data.length; i++) {
         this.retrieveCalendarItemsForCourse(token, data[i].id, this.statics.assignment, timeRange[0], timeRange[1], this.statics.defaultFetchPageSize);
         this.retrieveCalendarItemsForCourse(token, data[i].id, this.statics.event, timeRange[0], timeRange[1], this.statics.defaultFetchPageSize);
       }
     })
     .then(() => {
-      this.toggleModal('formModal');
+      if (!skipToggleModal) this.toggleModal('formModal');
     })
     .catch(console.log);
   }
@@ -283,7 +280,7 @@ class App extends Component {
       <div className="container">
         <Navigator />
         {this.getTokenInputModal()}
-        <Tabs courses={this.state.courses} assignments={this.state.assignments} events={this.state.events} />
+        <Tabs courses={this.state.courses} assignments={this.state.assignments} events={this.state.events} weekToggleHandler={this.weekToggleHandler} />
         <Footer />
       </div>
     );
