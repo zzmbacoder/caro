@@ -124,9 +124,9 @@ class Tabs extends React.Component {
         }
     }
 
-    getCalendarItemDetails(key, calendarItem, time, itemDescription, isCalendarEvent) {
+    getCalendarItemDetails(key, calendarItem, time, itemDescription, isCalendarEvent, includeSeparator) {
         return <div key={key}>
-                <Row key={(isCalendarEvent ? 'event' : 'assignment') + 'Details' + key}>
+                    <Row key={(isCalendarEvent ? 'event' : 'assignment') + 'Details' + key}>
                         <Col sm="6"> 
                             {calendarItem.title ? calendarItem.title : ''}
                         </Col>
@@ -138,7 +138,7 @@ class Tabs extends React.Component {
                             {calendarItem.html_url ? <a href={calendarItem.html_url} target="_blank">{this.statics.viewInCanvasText}</a> : ''}
                         </Col>                     
                     </Row>
-                    {(isCalendarEvent && itemDescription?
+                    {(isCalendarEvent && itemDescription ?
                         <Row key={'eventDescription' + key}>
                             <Col sm="12">
                                 <Collapsible trigger={this.getShowMoreTriggerLink()}>
@@ -146,7 +146,10 @@ class Tabs extends React.Component {
                                 </Collapsible>
                             </Col>
                         </Row> : 
-                    '')}          
+                    '')}
+                    {
+                        includeSeparator ? <hr/> : ''
+                    }
             </div>
     }
 
@@ -163,7 +166,7 @@ class Tabs extends React.Component {
         return <strong><a href="#">{this.statics.showDetails}</a></strong>;
     }
 
-    getInfoCardDetails(key, courseName, calendarItemDetails, isCalendarEvent) {
+    getInfoCardDetails(key, courseName, calendarItemDetails, isCalendarEvent, includeSeparator) {
         return <div className="description infoCard" key={(isCalendarEvent ? 'event' : 'assignment') + 'InfoCardDetails' + key}>
                     <Row>
                         <Col sm="12" className="h6">
@@ -171,7 +174,8 @@ class Tabs extends React.Component {
                         </Col>
                     </Row>
                     {calendarItemDetails}
-            </div>
+                    {includeSeparator ? <hr/> : ''}
+                </div>
     }
 
     getInfoCardDetailsPlaceHolder(isCalendarEvent) {
@@ -285,11 +289,11 @@ class Tabs extends React.Component {
                     }
 
                     calendarItemDetails.push(
-                        this.getCalendarItemDetails(k, calendarItem, time, itemDescription, isCalendarEvent)
+                        this.getCalendarItemDetails(k, calendarItem, time, itemDescription, isCalendarEvent, (k !== calendarItems.length - 1))
                     );
                 }
                 infoCardDetails.push(
-                    this.getInfoCardDetails(j, courseIdToNames[courseNamesOrdered[j].substring(this.statics.course_.length)], calendarItemDetails, isCalendarEvent)
+                    this.getInfoCardDetails(j, courseIdToNames[courseNamesOrdered[j].substring(this.statics.course_.length)], calendarItemDetails, isCalendarEvent, (j !== courseNamesOrdered.length -1))
                 );
             }
 
