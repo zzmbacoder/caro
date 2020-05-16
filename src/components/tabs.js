@@ -29,7 +29,7 @@ class Tabs extends React.Component {
         dueDateText: 'Due Date',
         linkText: 'Link',
         viewInCanvasText: 'View in Canvas',
-        showDetails: 'Show Details',
+        showDetails: 'Details',
         nothingToPrepareText: 'Nothing to prepare for this day.',
         nothingDueText: 'Nothing is due on this day.',
         zoomLink: 'https://zoom.us/'
