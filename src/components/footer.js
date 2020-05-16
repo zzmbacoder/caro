@@ -13,6 +13,7 @@ class Footer extends React.Component {
     statics = {
         gitRepoLink: 'https://github.com/zzmbacoder/caro',
         canvasLink: 'https://courseworks2.columbia.edu',
+        bossLink: 'https://boss.gsb.columbia.edu/',
         cbsCaroLong: 'CBS Academic Rep Online (CARO)',
         cbsCaroShort: "CARO"
     };
@@ -36,30 +37,18 @@ class Footer extends React.Component {
                 <Nav className=" nav-footer justify-content-end footerLogoMobile">
                     <NavItem>
                     <NavLink
-                        href={this.statics.gitRepoLink}
+                        href={this.statics.canvasLink}
                         target="_blank"
                     >
-                        <span className="btn-inner--icon">
-                            <img
-                            alt="..."
-                            className="footerLogo"
-                            src={require("../assets/img/icons/common/github.svg")}
-                            />
-                        </span>
+                        <div className="footerCopyRightText">Canvas</div>
                     </NavLink>
                     </NavItem>
                     <NavItem>
                     <NavLink
-                        href={this.statics.canvasLink}
+                        href={this.statics.bossLink}
                         target="_blank"
                     >
-                        <span className="btn-inner--icon">
-                            <img
-                            alt="..."
-                            className="footerLogo"
-                            src={require("../assets/img/icons/common/canvas.png")}
-                            />
-                        </span>
+                         <div className="footerCopyRightText">BOSS</div>
                     </NavLink>
                     </NavItem>
                 </Nav>
