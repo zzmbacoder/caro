@@ -15,7 +15,8 @@ class Footer extends React.Component {
         canvasLink: 'https://courseworks2.columbia.edu',
         bossLink: 'https://boss.gsb.columbia.edu/',
         cbsCaroLong: 'CBS Academic Rep Online (CARO)',
-        cbsCaroShort: "CARO"
+        cbsCaroShort: "CARO",
+        v: "v"
     };
 
     render() {
@@ -26,7 +27,7 @@ class Footer extends React.Component {
                 <Col md="6">
                     <div className="footerCopyRightText">
                         © {new Date().getFullYear()}{" "}
-                        {this.statics.cbsCaroLong}
+                        {this.statics.cbsCaroLong} {this.statics.v}{this.props.version}
                     </div>
                     <div className="footerCopyRightTextMobile">
                         © {new Date().getFullYear()}{" "}

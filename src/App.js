@@ -6,6 +6,7 @@ import fetch from 'isomorphic-fetch';
 import moment from "moment";
 // eslint-disable-next-line
 import timezone from "moment-timezone";
+import packageJson from '../package.json'
 
 import "./assets/vendor/nucleo/css/nucleo.css";
 import "./assets/vendor/font-awesome/css/font-awesome.min.css";
@@ -281,7 +282,7 @@ class App extends Component {
         <Navigator />
         {this.getTokenInputModal()}
         <Tabs courses={this.state.courses} assignments={this.state.assignments} events={this.state.events} weekToggleHandler={this.weekToggleHandler} />
-        <Footer />
+        <Footer version={packageJson.version} />
       </div>
     );
   }
