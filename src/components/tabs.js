@@ -33,7 +33,8 @@ class Tabs extends React.Component {
         showDetails: 'Details',
         nothingToPrepareText: 'Nothing to prepare for this day.',
         nothingDueText: 'Nothing is due on this day.',
-        zoomLink: 'https://zoom.us/'
+        zoomLink: 'https://zoom.us/',
+        cbsCanvasUrlPrefix: 'https://courseworks2.columbia.edu/courses/'
     };
 
     state = {
@@ -170,11 +171,12 @@ class Tabs extends React.Component {
         return <strong><a href="#">{this.statics.showDetails}</a></strong>;
     }
 
-    getInfoCardDetails(key, courseName, calendarItemDetails, isCalendarEvent, includeSeparator) {
+    getInfoCardDetails(key, courseId, courseName, calendarItemDetails, isCalendarEvent, includeSeparator) {
         return <div className="description infoCard" key={(isCalendarEvent ? 'event' : 'assignment') + 'InfoCardDetails' + key}>
                     <Row>
                         <Col sm="12" className="h6">
-                            <strong>{courseName}</strong>
+                            {/* eslint-disable-next-line */}
+                            <strong><a href={this.statics.cbsCanvasUrlPrefix + courseId} target="_blank">{courseName}</a></strong>
                         </Col>
                     </Row>
                     {calendarItemDetails}
@@ -296,8 +298,10 @@ class Tabs extends React.Component {
                         this.getCalendarItemDetails(k, calendarItem, time, itemDescription, isCalendarEvent, (k !== calendarItems.length - 1))
                     );
                 }
+
+                const courseId = courseNamesOrdered[j].substring(this.statics.course_.length);
                 infoCardDetails.push(
-                    this.getInfoCardDetails(j, courseIdToNames[courseNamesOrdered[j].substring(this.statics.course_.length)], calendarItemDetails, isCalendarEvent, (j !== courseNamesOrdered.length -1))
+                    this.getInfoCardDetails(j, courseId, courseIdToNames[courseId], calendarItemDetails, isCalendarEvent, (j !== courseNamesOrdered.length -1))
                 );
             }
 
