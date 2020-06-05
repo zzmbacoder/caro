@@ -64,8 +64,12 @@
   margin-top: 9px;
 }
 
-.submittedAssignments {
+.submittedAssignmentsColor {
   color: #8898aa;
+}
+
+.submittedAssignments {
+  text-decoration: line-through;
 }
 
 @media (max-width: 576px) {

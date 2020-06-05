@@ -127,18 +127,19 @@ class Tabs extends React.Component {
 
     getCalendarItemDetails(key, calendarItem, time, itemDescription, isCalendarEvent, includeSeparator) {
         const hasSubmittedAssignment = !isCalendarEvent && calendarItem.assignment && calendarItem.assignment.user_submitted;
-        const rowClass = hasSubmittedAssignment ? "submittedAssignments" : "";
-        return <div key={key} className={rowClass}>
+        const submittedAssignmentClass = hasSubmittedAssignment ? "submittedAssignmentsColor submittedAssignments" : "";
+        const viewSubmittedAssignmentLinkClass = hasSubmittedAssignment ? "submittedAssignmentsColor": "";
+        return <div key={key}>
                     <Row key={(isCalendarEvent ? 'event' : 'assignment') + 'Details' + key}>
-                        <Col sm="6"> 
+                        <Col sm="6" className={submittedAssignmentClass}> 
                             {calendarItem.title ? calendarItem.title : ''}
                         </Col>
-                        <Col sm="4">
+                        <Col sm="4" className={submittedAssignmentClass}>
                             {this.getZoomLinkFromLocationIfAvailable(calendarItem, time)}
                         </Col>
                         <Col sm="2">
                             {/* eslint-disable-next-line */}
-                            {calendarItem.html_url ? <a className={rowClass} href={calendarItem.html_url} target="_blank">{hasSubmittedAssignment ? this.statics.viewSubmissionInCanvasText : this.statics.viewInCanvasText}</a> : ''}
+                            {calendarItem.html_url ? <a className={viewSubmittedAssignmentLinkClass} href={calendarItem.html_url} target="_blank">{hasSubmittedAssignment ? this.statics.viewSubmissionInCanvasText : this.statics.viewInCanvasText}</a> : ''}
                         </Col>                     
                     </Row>
                     {(isCalendarEvent && itemDescription ?
