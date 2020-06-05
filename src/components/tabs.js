@@ -29,6 +29,7 @@ class Tabs extends React.Component {
         dueDateText: 'Due Date',
         linkText: 'Link',
         viewInCanvasText: 'View in Canvas',
+        viewSubmissionInCanvasText: "View Submission",
         showDetails: 'Details',
         nothingToPrepareText: 'Nothing to prepare for this day.',
         nothingDueText: 'Nothing is due on this day.',
@@ -125,7 +126,9 @@ class Tabs extends React.Component {
     }
 
     getCalendarItemDetails(key, calendarItem, time, itemDescription, isCalendarEvent, includeSeparator) {
-        return <div key={key}>
+        const hasSubmittedAssignment = !isCalendarEvent && calendarItem.assignment && calendarItem.assignment.user_submitted;
+        const rowClass = hasSubmittedAssignment ? "submittedAssignments" : "";
+        return <div key={key} className={rowClass}>
                     <Row key={(isCalendarEvent ? 'event' : 'assignment') + 'Details' + key}>
                         <Col sm="6"> 
                             {calendarItem.title ? calendarItem.title : ''}
@@ -135,7 +138,7 @@ class Tabs extends React.Component {
                         </Col>
                         <Col sm="2">
                             {/* eslint-disable-next-line */}
-                            {calendarItem.html_url ? <a href={calendarItem.html_url} target="_blank">{this.statics.viewInCanvasText}</a> : ''}
+                            {calendarItem.html_url ? <a className={rowClass} href={calendarItem.html_url} target="_blank">{hasSubmittedAssignment ? this.statics.viewSubmissionInCanvasText : this.statics.viewInCanvasText}</a> : ''}
                         </Col>                     
                     </Row>
                     {(isCalendarEvent && itemDescription ?
