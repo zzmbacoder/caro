@@ -64,6 +64,10 @@
   margin-top: 9px;
 }
 
+.submittedAssignments {
+  color: #8898aa;
+}
+
 @media (max-width: 576px) {
   .footerCopyRightText {
       display: none;
