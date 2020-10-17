@@ -45,12 +45,12 @@ class Tabs extends React.Component {
 
     getAvailableDates(now, startingIndex, endingIndex) {
         const dates = [];
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const lastSunday = new Date(today.setDate(today.getDate()-today.getDay()));
-
-        for (let i = startingIndex; i < endingIndex; i++) {
-            const timeToShift = i * 24 * 60 * 60 * 1000;
-            dates.push(new Date(lastSunday.getTime() + timeToShift));
+        let today = moment(now);
+        today = today.startOf('week').add(startingIndex, 'd');
+        
+        for (let i = 0; i < 7; i++) {
+            dates.push(today.startOf('day').toDate().toString());
+            today = today.add(1, 'd');
         }
         return dates;
     }
@@ -338,11 +338,10 @@ class Tabs extends React.Component {
     }
 
     toggleWeekDayRange(e, isBack) {
-        const currentStartDate = this.state.dates[0];
-        const timeToShift = 7 * 24 * 60 * 60 * 1000;
-        const newStartDate = new Date(currentStartDate.getTime() + (isBack ? -timeToShift : timeToShift));
+        const currentStartDate = moment(this.state.dates[0]).startOf('day');
+        const newStartDate = currentStartDate.add(isBack ? -7 : 7, 'd'); 
 
-        this.props.weekToggleHandler(newStartDate);
+        this.props.weekToggleHandler(newStartDate.toDate());
         this.setState({
             tabs: 0,
             dates: this.getAvailableDates(newStartDate, 0, 7),
